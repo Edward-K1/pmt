@@ -1,0 +1,37 @@
+.tweet-text > * {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem;
+  border-radius: 5px;
+  outline: none !important;
+  border: 1px solid green;
+}
+
+.tweet-text .header {
+  border: none;
+  color: green;
+  font-size: 18px;
+  border-bottom: 1px solid green;
+  border-radius: 0px;
+}
+
+.tweet-text > input, 
+.tweet-text > textarea {
+
+  width: 100%;
+  margin: 0.5rem;
+  border-radius: 5px;
+  outline: none !important;
+  border: 1px solid green;
+}
+
+
+.tweet-text > button {
+  color: #fff;
+  background: green;
+  font-size: 1rem;
+}
+
+.container {
+  margin: auto !important;
+}

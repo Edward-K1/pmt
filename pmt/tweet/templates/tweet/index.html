@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %} Poor Man's Twitter {% endblock %}
+
+{% block content %}
+<div id="app" class="container">
+
+  <div class="tweet-text">
+    <div class="header">Poor Man's Twitter</div>
+    <input type="text" name="tweetTitle" id="tweetTitle" placeholder="what's on your mind?" maxlength="40">
+    <textarea name="tweetBody" id="tweetBody" cols="10" rows="5" placeholder="More context ..."
+      maxlength="50"></textarea>
+    <button id="saveBtn" v-on:click="saveTweet">Save</button>
+
+
+  </div>
+
+  <table>
+    <th>Name</th>
+    <th>Message</th>
+    <th>Created</th>
+
+
+  </table>
+</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  var app = new Vue({
+
+    // curly braces conflict with django's templating system
+    delimiters: ["[[", "]]"],
+    el: '#app',
+    data: function () {
+      return {
+        tweets: []
+      }
+    },
+
+    mounted: function () {
+      this.fetchTweets()
+        .then(response => {
+          this.tweets = response.data;
+        });
+
+    },
+
+
+    methods: {
+      async saveTweet() {
+        const tweetName = document.getElementById('tweetTitle').value;
+        const tweetBody = document.getElementById('tweetBody').value;
+
+        let tweet = {
+          title: tweetName,
+          body: tweetBody
+        };
+
+        let res = await axios.post(APIURL, tweet);
+        let responseInfo = res.data
+        if (responseInfo.hasOwnProperty('id')) {
+          app.tweets.push(responseInfo)
+        } else {
+          alert('failed to save tweet');
+        }
+
+
+      },
+
+      fetchTweets: function () {
+        return axios.get(APIURL)
+      },
+
+
+
+    },
+
+  });
+</script>
+{% endblock %}

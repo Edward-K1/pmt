@@ -9,16 +9,11 @@
     <input type="text" name="tweetTitle" id="tweetTitle" placeholder="what's on your mind?" maxlength="40">
     <textarea name="tweetBody" id="tweetBody" cols="10" rows="5" placeholder="More context ..."
       maxlength="50"></textarea>
-    <button id="saveBtn" v-on:click="saveTweet">Save</button>
-
+    <button id="saveBtn" v-on:click="saveTweet">[[saveLabel]]</button>
 
   </div>
 
-  <table>
-    <th>Name</th>
-    <th>Message</th>
-    <th>Created</th>
-
+  <table v-html="tweetRecords">
 
   </table>
 </div>
@@ -35,7 +30,15 @@
     el: '#app',
     data: function () {
       return {
-        tweets: []
+        saveLabel: 'Save',
+        tweets: [],
+        tweetRecords: ''
+      }
+    },
+
+    watch: {
+      tweets: function (oldTweets, newTweets) {
+        this.displayTweets();
       }
     },
 
@@ -44,34 +47,52 @@
         .then(response => {
           this.tweets = response.data;
         });
-
     },
 
 
     methods: {
       async saveTweet() {
-        const tweetName = document.getElementById('tweetTitle').value;
-        const tweetBody = document.getElementById('tweetBody').value;
+        app.saveLabel = 'Saving...'
+        let tweetName = document.getElementById('tweetTitle').value;
+        let tweetBody = document.getElementById('tweetBody').value;
 
         let tweet = {
           title: tweetName,
           body: tweetBody
         };
 
-        let res = await axios.post(APIURL, tweet);
-        let responseInfo = res.data
-        if (responseInfo.hasOwnProperty('id')) {
-          app.tweets.push(responseInfo)
-        } else {
-          alert('failed to save tweet');
+        try {
+          let res = await axios.post(APIURL, tweet);
+          let tweetInfo = res.data;
+          if (tweetInfo.hasOwnProperty('id')) {
+            app.tweets.push(tweetInfo);
+          } else {
+            alert('failed to save tweet');
+          }
+
+        } finally {
+          app.saveLabel = 'Save'
+
         }
+
 
 
       },
 
       fetchTweets: function () {
-        return axios.get(APIURL)
+        return axios.get(APIURL);
       },
+
+      displayTweets: function () {
+
+        var tableHTML ='<tr><td>Name</td><td>Message</td><td>Created</td></tr>';
+
+        app.tweets.forEach(item => {
+          tableHTML += `<tr><td>${item.title}</td><td>${item.body}</td><td>${item.created}</td></tr>`
+        });
+
+        app.tweetRecords = tableHTML;
+      }
 
 
 

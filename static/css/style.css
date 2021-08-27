@@ -35,3 +35,17 @@
 .container {
   margin: auto !important;
 }
+
+table {
+  border: 1px solid green;
+  width: 100%;
+  margin: 0.5rem;
+}
+
+td {
+  padding: 0.5rem;
+}
+
+tr:nth-child(even) {
+  background: lightgray;
+}

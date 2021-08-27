@@ -8,11 +8,12 @@ from .serializers import TweetSerializer
 
 
 class TweetList(generics.ListCreateAPIView):
-  queryset = Tweet.objects.all()
-  serializer_class = TweetSerializer
-  permission_classes = [AllowAny,]
+    queryset = Tweet.objects.all()
+    serializer_class = TweetSerializer
+    permission_classes = [
+        AllowAny,
+    ]
 
 
 def index(request):
-  context = {}
-  return render(request, 'tweet/index.html')
+    return render(request, 'tweet/index.html')

@@ -17,7 +17,7 @@ from django import urls
 from django.contrib import admin
 from django.urls import path
 
-from .tweet.views import TweetList, index
+from .tweets.views import TweetList, index
 
 urlpatterns = [
     path('', index),

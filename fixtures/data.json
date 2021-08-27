@@ -1,0 +1,19 @@
+[{
+  "model": "tweets.tweet",
+  "pk": 1,
+  "fields": {
+    "title": "one",
+    "body": "first tweet",
+    "created": "2021-08-27T08:57:45.546Z",
+    "modified": "2021-08-27T08:57:45.546Z"
+  }
+}, {
+  "model": "tweets.tweet",
+  "pk": 2,
+  "fields": {
+    "title": "two",
+    "body": "second tweet",
+    "created": "2021-08-27T08:57:58.332Z",
+    "modified": "2021-08-27T08:57:58.332Z"
+  }
+}]
